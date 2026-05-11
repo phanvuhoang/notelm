@@ -261,13 +261,13 @@ export default function DesktopLoginPage() {
 				<div className="flex flex-col items-center px-6 pt-6 pb-2 text-center">
 					<Image
 						src="/icon-128.svg"
-						className="select-none dark:invert size-12 rounded-lg mb-3"
-						alt="SurfSense"
+						className="select-none size-12 rounded-lg mb-3"
+						alt="notelm"
 						width={48}
 						height={48}
 						priority
 					/>
-					<h1 className="text-lg font-semibold tracking-tight">Welcome to SurfSense Desktop</h1>
+					<h1 className="text-lg font-semibold tracking-tight">Welcome to notelm Desktop</h1>
 					<p className="mt-1 text-sm text-muted-foreground">
 						Configure shortcuts, then sign in to get started
 					</p>
