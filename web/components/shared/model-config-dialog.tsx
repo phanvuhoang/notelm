@@ -13,7 +13,7 @@ import { LLMConfigForm, type LLMConfigFormData } from "@/components/shared/llm-c
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { InlinePanel, InlinePanelContent, InlinePanelTitle } from "@/components/ui/inline-panel";
 import { Spinner } from "@/components/ui/spinner";
 import type {
 	GlobalNewLLMConfig,
@@ -144,12 +144,12 @@ export function ModelConfigDialog({
 	}, [config, isGlobal, searchSpaceId, updatePreferences, onOpenChange]);
 
 	return (
-		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent
+		<InlinePanel open={open} onOpenChange={onOpenChange}>
+			<InlinePanelContent
 				className="max-w-lg h-[85vh] flex flex-col p-0 gap-0 overflow-hidden"
 				onOpenAutoFocus={(e) => e.preventDefault()}
 			>
-				<DialogTitle className="sr-only">{getTitle()}</DialogTitle>
+				<InlinePanelTitle className="sr-only">{getTitle()}</InlinePanelTitle>
 
 				{/* Header */}
 				<div className="flex items-start justify-between px-6 pt-6 pb-4 pr-14">
@@ -333,7 +333,7 @@ export function ModelConfigDialog({
 						</Button>
 					) : null}
 				</div>
-			</DialogContent>
-		</Dialog>
+			</InlinePanelContent>
+		</InlinePanel>
 	);
 }

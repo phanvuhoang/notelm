@@ -20,7 +20,7 @@ import {
 	CommandItem,
 	CommandList,
 } from "@/components/ui/command";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { InlinePanel, InlinePanelContent, InlinePanelTitle } from "@/components/ui/inline-panel";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -199,12 +199,12 @@ export function ImageConfigDialog({
 	const selectedProvider = IMAGE_GEN_PROVIDERS.find((p) => p.value === formData.provider);
 
 	return (
-		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent
+		<InlinePanel open={open} onOpenChange={onOpenChange}>
+			<InlinePanelContent
 				className="max-w-lg h-[85vh] flex flex-col p-0 gap-0 overflow-hidden"
 				onOpenAutoFocus={(e) => e.preventDefault()}
 			>
-				<DialogTitle className="sr-only">{getTitle()}</DialogTitle>
+				<InlinePanelTitle className="sr-only">{getTitle()}</InlinePanelTitle>
 
 				{/* Header */}
 				<div className="flex items-start justify-between px-6 pt-6 pb-4 pr-14">
@@ -450,7 +450,7 @@ export function ImageConfigDialog({
 						</Button>
 					) : null}
 				</div>
-			</DialogContent>
-		</Dialog>
+			</InlinePanelContent>
+		</InlinePanel>
 	);
 }

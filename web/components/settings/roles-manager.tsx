@@ -46,13 +46,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogHeader,
-	DialogTitle,
-} from "@/components/ui/dialog";
+
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -73,6 +67,7 @@ import type {
 import { rolesApiService } from "@/lib/apis/roles-api.service";
 import { cacheKeys } from "@/lib/query-client/cache-keys";
 import { cn } from "@/lib/utils";
+import { InlinePanel, InlinePanelContent, InlinePanelDescription, InlinePanelHeader, InlinePanelTitle } from "@/components/ui/inline-panel";
 
 const CATEGORY_CONFIG: Record<
 	string,
@@ -857,14 +852,14 @@ function CreateRoleDialog({
 	);
 
 	return (
-		<Dialog open={open} onOpenChange={(v) => (v ? onOpenChange(true) : handleClose())}>
-			<DialogContent className="!flex !flex-col w-[92vw] max-w-[92vw] sm:max-w-2xl p-0 gap-0 max-h-[85vh] overflow-hidden">
-				<DialogHeader className="px-5 pt-5 pb-4 shrink-0">
-					<DialogTitle className="text-lg">Create Custom Role</DialogTitle>
-					<DialogDescription className="text-sm text-muted-foreground">
+		<InlinePanel open={open} onOpenChange={(v) => (v ? onOpenChange(true) : handleClose())}>
+			<InlinePanelContent className="!flex !flex-col w-[92vw] max-w-[92vw] sm:max-w-2xl p-0 gap-0 max-h-[85vh] overflow-hidden">
+				<InlinePanelHeader className="px-5 pt-5 pb-4 shrink-0">
+					<InlinePanelTitle className="text-lg">Create Custom Role</InlinePanelTitle>
+					<InlinePanelDescription className="text-sm text-muted-foreground">
 						Define permissions for a new role in this search space
-					</DialogDescription>
-				</DialogHeader>
+					</InlinePanelDescription>
+				</InlinePanelHeader>
 				<div className="flex-1 min-h-0 overflow-y-auto">
 					<div className="px-5 py-5 space-y-5">
 						<div className="space-y-2">
@@ -955,8 +950,8 @@ function CreateRoleDialog({
 						)}
 					</Button>
 				</div>
-			</DialogContent>
-		</Dialog>
+			</InlinePanelContent>
+		</InlinePanel>
 	);
 }
 
@@ -1043,14 +1038,14 @@ function EditRoleDialog({
 	);
 
 	return (
-		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="!flex !flex-col w-[92vw] max-w-[92vw] sm:max-w-2xl p-0 gap-0 max-h-[85vh] overflow-hidden">
-				<DialogHeader className="px-5 py-4 shrink-0">
-					<DialogTitle className="text-base">Edit Role</DialogTitle>
-					<DialogDescription className="text-xs">
+		<InlinePanel open={open} onOpenChange={onOpenChange}>
+			<InlinePanelContent className="!flex !flex-col w-[92vw] max-w-[92vw] sm:max-w-2xl p-0 gap-0 max-h-[85vh] overflow-hidden">
+				<InlinePanelHeader className="px-5 py-4 shrink-0">
+					<InlinePanelTitle className="text-base">Edit Role</InlinePanelTitle>
+					<InlinePanelDescription className="text-xs">
 						Modify permissions for &quot;{role.name}&quot;
-					</DialogDescription>
-				</DialogHeader>
+					</InlinePanelDescription>
+				</InlinePanelHeader>
 				<div className="flex-1 min-h-0 overflow-y-auto">
 					<div className="px-5 py-5 space-y-5">
 						<div className="grid grid-cols-2 gap-3">
@@ -1115,7 +1110,7 @@ function EditRoleDialog({
 						)}
 					</Button>
 				</div>
-			</DialogContent>
-		</Dialog>
+			</InlinePanelContent>
+		</InlinePanel>
 	);
 }
