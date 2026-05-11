@@ -21,7 +21,7 @@
 	--popover: oklch(1 0 0);
 	--popover-foreground: oklch(0.145 0 0);
 	/* notelm brand: #028a39 */
-	--primary: oklch(0.553 0.157 148.733);
+	--primary: #028a39;
 	--primary-foreground: oklch(0.985 0 0);
 	--secondary: oklch(0.97 0 0);
 	--secondary-foreground: oklch(0.205 0 0);
@@ -33,7 +33,7 @@
 	--destructive-foreground: oklch(0.985 0 0);
 	--border: oklch(0.922 0 0);
 	--input: oklch(0.922 0 0);
-	--ring: oklch(0.553 0.157 148.733);
+	--ring: #028a39;
 	--chart-1: oklch(0.646 0.222 41.116);
 	--chart-2: oklch(0.6 0.118 184.704);
 	--chart-3: oklch(0.398 0.07 227.392);
@@ -42,15 +42,15 @@
 	--radius: 0.625rem;
 	--sidebar: oklch(0.985 0 0);
 	--sidebar-foreground: oklch(0.145 0 0);
-	--sidebar-primary: oklch(0.553 0.157 148.733);
+	--sidebar-primary: #028a39;
 	--sidebar-primary-foreground: oklch(0.985 0 0);
 	--sidebar-accent: oklch(0.97 0 0);
 	--sidebar-accent-foreground: oklch(0.205 0 0);
 	--sidebar-border: oklch(0.922 0 0);
-	--sidebar-ring: oklch(0.553 0.157 148.733);
+	--sidebar-ring: #028a39;
 	--main-panel: oklch(1 0 0);
 	--syntax-bg: #f5f5f5;
-	--brand: oklch(0.553 0.157 148.733);
+	--brand: #028a39;
 	--highlight: oklch(0.852 0.199 91.936);
 }
 
@@ -62,7 +62,7 @@
 	--popover: oklch(0.145 0 0);
 	--popover-foreground: oklch(0.985 0 0);
 	/* notelm brand: lighter green for dark bg */
-	--primary: oklch(0.70 0.17 148.733);
+	--primary: #3dba5f;
 	--primary-foreground: oklch(0.145 0 0);
 	--secondary: oklch(0.269 0 0);
 	--secondary-foreground: oklch(0.985 0 0);
@@ -74,7 +74,7 @@
 	--destructive-foreground: oklch(0.985 0 0);
 	--border: oklch(0.269 0 0);
 	--input: oklch(0.269 0 0);
-	--ring: oklch(0.70 0.17 148.733);
+	--ring: #3dba5f;
 	--chart-1: oklch(0.488 0.243 264.376);
 	--chart-2: oklch(0.696 0.17 162.48);
 	--chart-3: oklch(0.769 0.188 70.08);
@@ -82,15 +82,15 @@
 	--chart-5: oklch(0.645 0.246 16.439);
 	--sidebar: oklch(0.205 0 0);
 	--sidebar-foreground: oklch(0.985 0 0);
-	--sidebar-primary: oklch(0.70 0.17 148.733);
+	--sidebar-primary: #3dba5f;
 	--sidebar-primary-foreground: oklch(0.145 0 0);
 	--sidebar-accent: oklch(0.269 0 0);
 	--sidebar-accent-foreground: oklch(0.985 0 0);
 	--sidebar-border: oklch(0.269 0 0);
-	--sidebar-ring: oklch(0.70 0.17 148.733);
+	--sidebar-ring: #3dba5f;
 	--main-panel: oklch(0.18 0 0);
 	--syntax-bg: #1e1e1e;
-	--brand: oklch(0.70 0.17 148.733);
+	--brand: #3dba5f;
 	--highlight: oklch(0.852 0.199 91.936);
 }
 
@@ -148,23 +148,23 @@
 	:root {
 		--sidebar-background: 0 0% 98%;
 		--sidebar-foreground: 240 5.3% 26.1%;
-		--sidebar-primary: 240 5.9% 10%;
+		--sidebar-primary: 145 96% 28%; /* notelm brand */
 		--sidebar-primary-foreground: 0 0% 98%;
 		--sidebar-accent: 240 4.8% 95.9%;
 		--sidebar-accent-foreground: 240 5.9% 10%;
 		--sidebar-border: 220 13% 91%;
-		--sidebar-ring: 217.2 91.2% 59.8%;
+		--sidebar-ring: 145 96% 28%; /* notelm brand */
 	}
 
 	.dark {
 		--sidebar-background: 240 5.9% 10%;
 		--sidebar-foreground: 240 4.8% 95.9%;
-		--sidebar-primary: 224.3 76.3% 48%;
+		--sidebar-primary: 142 56% 49%; /* notelm brand dark */
 		--sidebar-primary-foreground: 0 0% 100%;
 		--sidebar-accent: 240 3.7% 15.9%;
 		--sidebar-accent-foreground: 240 4.8% 95.9%;
 		--sidebar-border: 240 3.7% 15.9%;
-		--sidebar-ring: 217.2 91.2% 59.8%;
+		--sidebar-ring: 145 96% 28%; /* notelm brand */
 	}
 }
 
