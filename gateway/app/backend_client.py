@@ -23,6 +23,7 @@ class BackendClient:
         self._client = httpx.AsyncClient(
             base_url=settings.backend_url,
             timeout=httpx.Timeout(120.0, connect=10.0),
+            follow_redirects=True,
         )
 
     async def aclose(self) -> None:
