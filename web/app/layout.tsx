@@ -45,7 +45,7 @@ export const metadata: Metadata = {
 	alternates: {
 		canonical: "https://surfsense.com",
 	},
-	title: "SurfSense – Open Source, Privacy-Focused NotebookLM Alternative for Teams",
+	title: "notelm — Sổ tay AI riêng cho team của bạn",
 	description:
 		"Open source NotebookLM alternative for teams with no data limits. Use ChatGPT, Claude AI, and any AI model for free.",
 	keywords: [
@@ -87,7 +87,7 @@ export const metadata: Metadata = {
 		"SurfSense",
 	],
 	openGraph: {
-		title: "SurfSense – Open Source, Privacy-Focused NotebookLM Alternative for Teams",
+		title: "notelm — Sổ tay AI riêng cho team của bạn",
 		description:
 			"Open source NotebookLM alternative for teams with no data limits. Use ChatGPT, Claude, and any AI model for free.",
 		url: "https://surfsense.com",
@@ -98,14 +98,14 @@ export const metadata: Metadata = {
 				url: "/og-image.png",
 				width: 1200,
 				height: 630,
-				alt: "SurfSense - Open Source NotebookLM Alternative with Free ChatGPT and Claude AI",
+				alt: "notelm — Sổ tay AI riêng",
 			},
 		],
 		locale: "en_US",
 	},
 	twitter: {
 		card: "summary_large_image",
-		title: "SurfSense – Open Source, Privacy-Focused NotebookLM Alternative for Teams",
+		title: "notelm — Sổ tay AI riêng cho team của bạn",
 		description:
 			"Open source NotebookLM alternative for teams with no data limits. Use ChatGPT, Claude AI, and any AI model for free.",
 		creator: "@SurfSenseAI",
@@ -115,7 +115,7 @@ export const metadata: Metadata = {
 				url: "/og-image-twitter.png",
 				width: 1200,
 				height: 630,
-				alt: "SurfSense - Open Source NotebookLM Alternative with Free ChatGPT and Claude AI",
+				alt: "notelm — Sổ tay AI riêng",
 			},
 		],
 	},
