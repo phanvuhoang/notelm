@@ -1,0 +1,51 @@
+/* notelm — visual overlay
+   Inject via reverse proxy or "Custom CSS" in Coolify.
+   Mirrors NotebookLM 3-column feel and uses the user's brand color #028a39. */
+
+:root {
+  --notelm-primary: #028a39;
+  --notelm-primary-strong: #016c2c;
+  --notelm-primary-soft: #e6f5ec;
+}
+
+/* Brand color tokens used by shadcn/Tailwind in the upstream app. */
+[data-theme="light"], :root {
+  --primary: 145 96% 28%;            /* HSL of #028a39 */
+  --primary-foreground: 0 0% 100%;
+  --ring: 145 96% 28%;
+}
+[data-theme="dark"] {
+  --primary: 145 70% 45%;
+  --primary-foreground: 0 0% 100%;
+  --ring: 145 70% 45%;
+}
+
+/* Primary buttons */
+button[data-variant="default"],
+.bg-primary,
+[data-state="checked"][role="switch"] {
+  background-color: var(--notelm-primary) !important;
+  color: #fff !important;
+}
+button[data-variant="default"]:hover {
+  background-color: var(--notelm-primary-strong) !important;
+}
+
+/* Links + chips */
+a:not([data-variant]) { color: var(--notelm-primary); }
+.badge-primary, .chip-primary {
+  background: var(--notelm-primary-soft);
+  color: var(--notelm-primary-strong);
+}
+
+/* NotebookLM-style 3-column layout cues (sources | chat | studio) */
+.notebook-shell { display: grid; grid-template-columns: 280px 1fr 320px; gap: 0; }
+@media (max-width: 1024px) { .notebook-shell { grid-template-columns: 1fr; } }
+
+/* Brand wordmark */
+.brand-wordmark::before {
+  content: "notelm";
+  font-weight: 700;
+  color: var(--notelm-primary);
+  letter-spacing: -0.02em;
+}

@@ -1,0 +1,201 @@
+# =============================================================================
+# notelm — Coolify-friendly Docker Compose
+# =============================================================================
+# Designed for a single VPS managed by Coolify. Uses upstream SurfSense images
+# (no need to build anything except the small `notelm-gateway`).
+#
+# Domains to map in Coolify (Traefik):
+#   notelm.gpt4vn.com       → frontend:3000          (main UI)
+#   api.notelm.gpt4vn.com   → backend:8000           (raw FastAPI, optional)
+#   gw.notelm.gpt4vn.com    → notelm-gateway:9000    (public API for sister apps)
+# =============================================================================
+
+name: notelm
+
+x-backend-env: &backend-env
+  DATABASE_URL: postgresql+asyncpg://${DB_USER:-notelm}:${DB_PASSWORD}@db:5432/${DB_NAME:-notelm}
+  CELERY_BROKER_URL: redis://redis:6379/0
+  CELERY_RESULT_BACKEND: redis://redis:6379/0
+  REDIS_APP_URL: redis://redis:6379/0
+  CELERY_TASK_DEFAULT_QUEUE: notelm
+  PYTHONPATH: /app
+  UVICORN_LOOP: asyncio
+  UNSTRUCTURED_HAS_PATCHED_LOOP: "1"
+  SECRET_KEY: ${SECRET_KEY}
+  AUTH_TYPE: ${AUTH_TYPE:-LOCAL}
+  ETL_SERVICE: ${ETL_SERVICE:-DOCLING}
+  EMBEDDING_MODEL: ${EMBEDDING_MODEL:-sentence-transformers/all-MiniLM-L6-v2}
+  TTS_SERVICE: ${TTS_SERVICE:-local/kokoro}
+  STT_SERVICE: ${STT_SERVICE:-local/base}
+  NEXT_FRONTEND_URL: ${NEXT_FRONTEND_URL:-https://notelm.gpt4vn.com}
+  BACKEND_URL: ${BACKEND_URL:-https://api.notelm.gpt4vn.com}
+  SEARXNG_DEFAULT_HOST: http://searxng:8080
+  # AI providers — at least one required
+  OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+  OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+  DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+  GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+  ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+  COHERE_API_KEY: ${COHERE_API_KEY:-}
+  # Default model preference (LiteLLM-style identifiers)
+  DEFAULT_CHAT_MODEL: ${DEFAULT_CHAT_MODEL:-openrouter/openai/gpt-4o-mini}
+  DEFAULT_FAST_MODEL: ${DEFAULT_FAST_MODEL:-openrouter/deepseek/deepseek-chat}
+  DEFAULT_LONG_MODEL: ${DEFAULT_LONG_MODEL:-openrouter/google/gemini-2.0-flash-001}
+
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    container_name: notelm-db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DB_USER:-notelm}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME:-notelm}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-notelm} -d ${DB_NAME:-notelm}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:8-alpine
+    container_name: notelm-redis
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  searxng:
+    image: searxng/searxng:2026.3.13-3c1f68c59
+    container_name: notelm-searxng
+    volumes:
+      - searxng_data:/etc/searxng
+    environment:
+      SEARXNG_SECRET: ${SEARXNG_SECRET:-notelm-searxng-secret}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  # One-shot: create the admin user from env, then exit successfully.
+  init-admin:
+    image: ghcr.io/modsetter/surfsense-backend:${SURFSENSE_VERSION:-latest}
+    container_name: notelm-init-admin
+    environment:
+      <<: *backend-env
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+    volumes:
+      - ./seed_admin.py:/app/seed_admin.py:ro
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        echo "[notelm] waiting for backend to be ready…"
+        # backend runs migrations on startup; we wait for it to expose /health
+        for i in $$(seq 1 60); do
+          if curl -sf http://backend:8000/health >/dev/null 2>&1; then
+            echo "[notelm] backend is ready"; break
+          fi
+          sleep 5
+        done
+        echo "[notelm] seeding admin user $${ADMIN_EMAIL}"
+        python /app/seed_admin.py || echo "[notelm] admin seed step finished (idempotent)"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: "no"
+
+  backend:
+    image: ghcr.io/modsetter/surfsense-backend:${SURFSENSE_VERSION:-latest}
+    container_name: notelm-backend
+    volumes:
+      - shared_temp:/shared_tmp
+    environment:
+      <<: *backend-env
+      SERVICE_ROLE: api
+    depends_on:
+      db: {condition: service_healthy}
+      redis: {condition: service_healthy}
+      searxng: {condition: service_healthy}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 30
+      start_period: 240s
+    deploy:
+      resources:
+        limits:
+          memory: 3G
+
+  worker:
+    image: ghcr.io/modsetter/surfsense-backend:${SURFSENSE_VERSION:-latest}
+    container_name: notelm-worker
+    volumes:
+      - shared_temp:/shared_tmp
+    environment:
+      <<: *backend-env
+      SERVICE_ROLE: worker
+    depends_on:
+      backend: {condition: service_healthy}
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+
+  frontend:
+    image: ghcr.io/modsetter/surfsense-web:${SURFSENSE_VERSION:-latest}
+    container_name: notelm-frontend
+    environment:
+      NEXT_PUBLIC_FASTAPI_BACKEND_URL: ${BACKEND_URL:-https://api.notelm.gpt4vn.com}
+      NEXT_PUBLIC_FASTAPI_BACKEND_AUTH_TYPE: ${AUTH_TYPE:-LOCAL}
+      NEXT_PUBLIC_ETL_SERVICE: ${ETL_SERVICE:-DOCLING}
+      NEXT_PUBLIC_DEPLOYMENT_MODE: self-hosted
+      NEXT_PUBLIC_APP_NAME: ${APP_NAME:-notelm}
+      NEXT_PUBLIC_PRIMARY_COLOR: ${PRIMARY_COLOR:-#028a39}
+      NEXT_PUBLIC_DEFAULT_LOCALE: ${DEFAULT_LOCALE:-vi}
+      FASTAPI_BACKEND_INTERNAL_URL: http://backend:8000
+    depends_on:
+      backend: {condition: service_healthy}
+    restart: unless-stopped
+
+  notelm-gateway:
+    build:
+      context: ../gateway
+      dockerfile: Dockerfile
+    container_name: notelm-gateway
+    environment:
+      BACKEND_URL: http://backend:8000
+      NOTELM_API_KEYS: ${NOTELM_API_KEYS}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    depends_on:
+      backend: {condition: service_healthy}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:
+    name: notelm-postgres
+  redis_data:
+    name: notelm-redis
+  shared_temp:
+    name: notelm-shared-temp
+  searxng_data:
+    name: notelm-searxng

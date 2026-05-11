@@ -1,0 +1,29 @@
+{
+  "_comment": "Sample Vietnamese strings for upstream i18n. Drop this in surfsense_web/messages/vi.json if you switch to a fork build.",
+  "app": {
+    "name": "notelm",
+    "tagline": "Trợ lý AI kiểu NotebookLM cho công việc và nghiên cứu"
+  },
+  "nav": {
+    "notebooks": "Sổ tay",
+    "sources": "Nguồn",
+    "chat": "Trò chuyện",
+    "studio": "Xưởng nội dung",
+    "settings": "Cài đặt",
+    "models": "Mô hình AI"
+  },
+  "actions": {
+    "upload": "Tải lên",
+    "addUrl": "Thêm liên kết",
+    "newNotebook": "Sổ tay mới",
+    "summarize": "Tóm tắt",
+    "mindmap": "Sơ đồ tư duy",
+    "podcast": "Podcast",
+    "slides": "Trang trình bày",
+    "researchNotes": "Ghi chú nghiên cứu"
+  },
+  "chat": {
+    "placeholder": "Hỏi bất kỳ điều gì về các nguồn của bạn…",
+    "citations": "Trích dẫn"
+  }
+}
