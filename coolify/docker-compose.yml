@@ -86,7 +86,8 @@ services:
       timeout: 5s
       retries: 5
 
-  # One-shot: create the admin user from env, then exit successfully.
+  # One-shot: create the admin user from env, then exit. Coolify will show
+  # this as Exited(0) after the first deploy — that is expected.
   init-admin:
     image: ghcr.io/modsetter/surfsense-backend:${SURFSENSE_VERSION:-latest}
     container_name: notelm-init-admin
@@ -99,19 +100,17 @@ services:
     entrypoint: ["/bin/sh", "-c"]
     command:
       - |
-        echo "[notelm] waiting for backend to be ready…"
-        # backend runs migrations on startup; we wait for it to expose /health
-        for i in $$(seq 1 60); do
+        echo "[notelm] waiting for backend health…";
+        for i in $$(seq 1 90); do
           if curl -sf http://backend:8000/health >/dev/null 2>&1; then
-            echo "[notelm] backend is ready"; break
-          fi
-          sleep 5
-        done
-        echo "[notelm] seeding admin user $${ADMIN_EMAIL}"
-        python /app/seed_admin.py || echo "[notelm] admin seed step finished (idempotent)"
+            echo "[notelm] backend healthy"; break;
+          fi;
+          sleep 5;
+        done;
+        echo "[notelm] seeding admin $${ADMIN_EMAIL}";
+        python /app/seed_admin.py || echo "[notelm] seed step finished";
     depends_on:
-      backend:
-        condition: service_healthy
+      backend: {condition: service_healthy}
     restart: "no"
 
   backend:
