@@ -76,14 +76,22 @@ curl https://gw.notelm.gpt4vn.com/healthz
 curl https://notelm.gpt4vn.com/        # nên trả HTML
 ```
 
-## 7. Đăng nhập lần đầu
+## 7. Tạo admin lần đầu
 
-Mở `https://notelm.gpt4vn.com` → **Sign in** với `ADMIN_EMAIL` /
-`ADMIN_PASSWORD`. Service `init-admin` chạy 1 lần sau khi backend khoẻ, tạo
-tài khoản này (idempotent — chạy lại không hỏng dữ liệu).
+Đăng ký admin qua REST một lần duy nhất (sau khi backend healthy):
 
-Sau khi vào được, đặt `REGISTRATION_ENABLED=FALSE` (nếu chưa) và redeploy để
-khoá đăng ký công khai.
+```bash
+curl -X POST -H 'Content-Type: application/json' \
+  https://api.notelm.gpt4vn.com/auth/register \
+  -d '{"email":"'$ADMIN_EMAIL'","password":"'$ADMIN_PASSWORD'"}'
+```
+
+Sau đó mở `https://notelm.gpt4vn.com` → **Sign in** bằng cùng email/password.
+
+> ⚠️ **REGISTRATION_ENABLED quirk**: upstream SurfSense chặn CẢ `/auth/register`
+> VÀ `/auth/jwt/login` khi `REGISTRATION_ENABLED=FALSE`. Vì vậy phải giữ `TRUE`
+> trong production. Bảo vệ instance bằng firewall, Cloudflare Access, hoặc
+> đặt rate-limit ở Traefik — đừng tắt flag này.
 
 ## 8. Cấu hình AI model trong UI
 
