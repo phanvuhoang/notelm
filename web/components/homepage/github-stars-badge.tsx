@@ -242,8 +242,8 @@ type NavbarGitHubStarsProps = {
 
 function NavbarGitHubStars({
 	username = "MODSetter",
-	repo = "SurfSense",
-	href = "https://github.com/MODSetter/SurfSense",
+	repo = "notelm",
+	href = "https://github.com/MODSetter/notelm",
 	className,
 }: NavbarGitHubStarsProps) {
 	const { data: stars = 0, isLoading } = useQuery({

@@ -91,7 +91,7 @@ const DesktopNav = ({ navItems, isScrolled, scrolledBgClassName }: DesktopNavPro
 				className="flex flex-1 flex-row items-center gap-0.5 hover:opacity-80 transition-opacity"
 			>
 				<Logo className="h-8 w-8 rounded-md" disableLink />
-				<span className="dark:text-white/90 text-gray-800 text-lg font-bold">SurfSense</span>
+				<span className="dark:text-white/90 text-gray-800 text-lg font-bold">notelm</span>
 			</Link>
 			<div className="hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2">
 				{navItems.map((navItem: NavItem, idx: number) => (
@@ -122,7 +122,7 @@ const DesktopNav = ({ navItems, isScrolled, scrolledBgClassName }: DesktopNavPro
 					<IconBrandDiscord className="h-5 w-5 text-neutral-600 dark:text-neutral-300" />
 				</Link>
 				<Link
-					href="https://www.reddit.com/r/SurfSense/"
+					href="https://github.com/phanvuhoang/notelm"
 					target="_blank"
 					rel="noopener noreferrer"
 					className="hidden rounded-full p-2 hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors md:flex items-center justify-center"
@@ -177,7 +177,7 @@ const MobileNav = ({ navItems, isScrolled, scrolledBgClassName }: MobileNavProps
 					className="flex flex-row items-center gap-2 hover:opacity-80 transition-opacity"
 				>
 					<Logo className="h-8 w-8 rounded-md" disableLink />
-					<span className="dark:text-white/90 text-gray-800 text-lg font-bold">SurfSense</span>
+					<span className="dark:text-white/90 text-gray-800 text-lg font-bold">notelm</span>
 				</Link>
 				<button
 					type="button"
@@ -221,7 +221,7 @@ const MobileNav = ({ navItems, isScrolled, scrolledBgClassName }: MobileNavProps
 								<IconBrandDiscord className="h-5 w-5 text-neutral-600 dark:text-neutral-300" />
 							</Link>
 							<Link
-								href="https://www.reddit.com/r/SurfSense/"
+								href="https://github.com/phanvuhoang/notelm"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="flex items-center justify-center rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors touch-manipulation"

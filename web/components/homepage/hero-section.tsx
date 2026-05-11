@@ -52,7 +52,7 @@ const GoogleLogo = ({ className }: { className?: string }) => (
 const TAB_ITEMS = [
 	{
 		title: "General Assist",
-		description: "Launch SurfSense instantly from any application.",
+		description: "Launch notelm instantly from any application.",
 		src: "/homepage/hero_tutorial/general_assist.mp4",
 		featured: true,
 	},

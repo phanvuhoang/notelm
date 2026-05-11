@@ -29,12 +29,12 @@ const cards = [
 	},
 ];
 
-export function WhySurfSense() {
+export function Whynotelm() {
 	return (
 		<section className="max-w-7xl mx-auto my-10">
 			<div className="mx-auto mb-10 text-center md:mb-16">
 				<p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brand">
-					Why SurfSense
+					Why notelm
 				</p>
 				<h2 className="text-balance text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
 					Everything NotebookLM should have been
@@ -375,7 +375,7 @@ function ComparisonStrip() {
 					NotebookLM
 				</span>
 				<span className="text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-					SurfSense
+					notelm
 				</span>
 			</div>
 
