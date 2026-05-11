@@ -44,6 +44,9 @@ ENV NEXT_PUBLIC_ETL_SERVICE=$NEXT_PUBLIC_ETL_SERVICE
 ENV NEXT_PUBLIC_ZERO_CACHE_URL=$NEXT_PUBLIC_ZERO_CACHE_URL
 ENV NEXT_PUBLIC_DEPLOYMENT_MODE=$NEXT_PUBLIC_DEPLOYMENT_MODE
 
+# Limit node heap to fit modest VPS (Coolify single-host).
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
