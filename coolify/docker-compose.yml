@@ -154,7 +154,16 @@ services:
           memory: 2G
 
   frontend:
-    image: ghcr.io/modsetter/surfsense-web:${SURFSENSE_VERSION:-latest}
+    # Custom notelm web: NotebookLM-style dashboard, settings tabs, #028a39 brand.
+    # Built from ./web (forked from SurfSense surfsense_web).
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_FASTAPI_BACKEND_URL: ${BACKEND_URL:-https://api.notelm.gpt4vn.com}
+        NEXT_PUBLIC_FASTAPI_BACKEND_AUTH_TYPE: ${AUTH_TYPE:-LOCAL}
+        NEXT_PUBLIC_ETL_SERVICE: ${ETL_SERVICE:-DOCLING}
+        NEXT_PUBLIC_DEPLOYMENT_MODE: self-hosted
     container_name: notelm-frontend
     environment:
       NEXT_PUBLIC_FASTAPI_BACKEND_URL: ${BACKEND_URL:-https://api.notelm.gpt4vn.com}
